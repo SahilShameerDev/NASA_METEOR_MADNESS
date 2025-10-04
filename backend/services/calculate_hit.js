@@ -1,7 +1,10 @@
 /**
  * Meteoroid Impact Calculator Service
  * Provides calculations for orbital mechanics, impact probability, and crater size
+ * These Calculation were implemented using AI assistance.
  */
+
+const { addGeographicImpactData } = require('./calculate_lat_and_long');
 
 // Physical Constants
 const CONSTANTS = {
@@ -215,7 +218,10 @@ function processNEO(neo) {
       neoData.primaryApproach = approaches[0];
     }
 
-    return neoData;
+    // Add geographic impact data (latitude/longitude calculations)
+    const neoWithGeoData = addGeographicImpactData(neoData);
+    
+    return neoWithGeoData;
   } catch (error) {
     console.error('Error processing NEO:', error);
     return {
