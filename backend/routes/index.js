@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 const { getNeoFeed } = require('../services/nasa');
 const { processNASAFeedData } = require('../services/calculate_hit');
+const customHitHandler = require('../controllers/customHitHandler');
 
 /* GET home page. */
 router.get('/', async function(req, res, next) {
@@ -23,6 +24,7 @@ router.get('/', async function(req, res, next) {
   }
 });
 
-router.get('/custom-hit', customHitHandler.getCustomHit);
+// Custom hit endpoint (POST request)
+router.post('/custom-hit', customHitHandler.getCustomHit);
 
 module.exports = router;
