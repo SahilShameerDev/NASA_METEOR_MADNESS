@@ -23,4 +23,6 @@ router.get('/', async function(req, res, next) {
   }
 });
 
+router.get('/custom-hit', customHitHandler.getCustomHit);
+
 module.exports = router;
