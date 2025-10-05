@@ -29,11 +29,7 @@ function MoonModel() {
             metalness: 0.1,
             transparent: true,
             opacity: 0,
-            wireframe: false,
-            flatShading: false,
           });
-          // Ensure geometry is properly set up
-          child.geometry.computeVertexNormals();
         }
       });
     }
@@ -70,8 +66,8 @@ function MoonModel() {
   });
 
   return (
-    <group ref={groupRef}>
-      <primitive ref={meshRef} object={obj} scale={2.5} />
+    <group ref={groupRef} rotation={[-0.5, 0, 0]} position={[0, -2, 0]}>
+      <primitive ref={meshRef} object={obj} scale={2.75625} />
     </group>
   );
 }
@@ -93,7 +89,7 @@ function Moon() {
       }}
     >
       <Canvas
-        camera={{ position: [0, 0, 5], fov: 50 }}
+        camera={{ position: [0, 1, 5], fov: 50 }}
         style={{ width: '100%', height: '100%' }}
       >
         <ambientLight intensity={0.3} />
