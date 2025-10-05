@@ -1,4 +1,3 @@
-
 /* 
 Custom Hit Handler --> Values to control the custom hit endpoint
         1. date (YYYY-MM-DD)
@@ -22,6 +21,9 @@ const {
 } = require('../services/calculate_hit');
 
 const { assessGeographicRisk } = require('../services/calculate_lat_and_long');
+
+// Import the new earthquake calculator
+const { addEarthquakeData } = require('../services/calculate_earthquake');
 
 module.exports.getCustomHit = async (req, res) => {
     try {
@@ -111,7 +113,7 @@ module.exports.getCustomHit = async (req, res) => {
         const geographicRisk = assessGeographicRisk(impactLocation, craterRadiusKm);
 
         // Prepare comprehensive response
-        const customHitData = {
+        let customHitData = {
             input: {
                 date: date,
                 location: {
@@ -173,10 +175,13 @@ module.exports.getCustomHit = async (req, res) => {
             }
         };
 
-        // Return the processed data with calculations
+        // Add earthquake data calculations
+        customHitData = addEarthquakeData(customHitData);
+
+        // Return the processed data with all calculations including earthquake data
         res.json({ 
             success: true,
-            message: 'Custom hit data processed successfully with impact calculations', 
+            message: 'Custom hit data processed successfully with impact and earthquake calculations', 
             data: customHitData 
         });
     } catch (error) {
