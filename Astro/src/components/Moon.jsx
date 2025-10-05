@@ -10,7 +10,7 @@ function MoonModel() {
   const [animationProgress, setAnimationProgress] = useState(0);
   
   // Load the Moon OBJ model
-  const obj = useLoader(OBJLoader, '/src/assets/Moon.obj');
+  const obj = useLoader(OBJLoader, 'Moon.obj');
   
   // Load textures
   const colorTexture = useLoader(THREE.TextureLoader, '/src/assets/texture/lroc_color_poles_1k.jpg');
