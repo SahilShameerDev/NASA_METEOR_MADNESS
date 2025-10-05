@@ -28,6 +28,9 @@ const { addEarthquakeData } = require('../services/calculate_earthquake');
 // Import the blast radius calculator
 const { addBlastRadiusData } = require('../services/calculate_blast_radius');
 
+// Import the mitigation strategies calculator
+const { addMitigationStrategies } = require('../services/mitigation_strategies');
+
 module.exports.getCustomHit = async (req, res) => {
     try {
         const {
@@ -188,6 +191,10 @@ module.exports.getCustomHit = async (req, res) => {
         console.log('Calculating blast radius effects...');
         customHitData = addBlastRadiusData(customHitData);
 
+        // Add mitigation strategies
+        console.log('Calculating mitigation strategies...');
+        customHitData = addMitigationStrategies(customHitData);
+
         // Add comprehensive summary
         customHitData.impactSummary = generateImpactSummary(customHitData);
 
@@ -202,6 +209,7 @@ module.exports.getCustomHit = async (req, res) => {
                 geographicImpactData: 'Geographic location and risk assessment',
                 earthquakeData: 'Seismic magnitude and effects',
                 blastRadiusData: 'Blast wave, thermal, and ejecta effects',
+                mitigationData: 'Planetary defense and prevention strategies',
                 impactSummary: 'Overall impact assessment and recommendations'
             }
         });
@@ -330,6 +338,19 @@ function generateImpactSummary(impactData) {
         populationRisk = 'Remote area, minimal population risk';
     }
     
+    // Add mitigation strategy summary
+    let mitigationSummary = null;
+    if (impactData.mitigationData && !impactData.mitigationData.error) {
+        mitigationSummary = {
+            recommendedApproach: impactData.mitigationData.recommendedApproach,
+            timeAvailable: impactData.mitigationData.timeAvailable,
+            successProbability: impactData.mitigationData.successProbability,
+            primaryStrategy: impactData.mitigationData.deflectionStrategies?.[0]?.method || 
+                           impactData.mitigationData.civilDefenseStrategies?.[0]?.strategy || 'Evaluate options',
+            keyRecommendation: impactData.mitigationData.keyRecommendations?.[0]?.action || 'Assess threat immediately'
+        };
+    }
+    
     return {
         overallThreatLevel: overallThreat,
         impactScale: impactData.blastRadiusData?.impactClassification?.category || 'UNKNOWN',
@@ -353,7 +374,8 @@ function generateImpactSummary(impactData) {
         comparisonToKnownEvents: impactData.blastRadiusData?.impactClassification?.comparableEvent || null,
         criticalWarnings: getAllCriticalWarnings(impactData),
         evacuationZones: impactData.blastRadiusData?.evacuationZones || null,
-        estimatedCasualties: impactData.blastRadiusData?.casualtyEstimates || null
+        estimatedCasualties: impactData.blastRadiusData?.casualtyEstimates || null,
+        mitigationStrategy: mitigationSummary
     };
 }
 
@@ -469,6 +491,22 @@ function getAllCriticalWarnings(impactData) {
             category: 'ENVIRONMENTAL',
             message: `${climate.type}: ${climate.description}`,
             details: climate
+        });
+    }
+    
+    // Mitigation warnings (time-sensitive)
+    if (impactData.mitigationData?.keyRecommendations) {
+        const criticalRecs = impactData.mitigationData.keyRecommendations.filter(
+            rec => rec.priority === 'CRITICAL'
+        );
+        criticalRecs.forEach(rec => {
+            allWarnings.push({
+                source: 'MITIGATION',
+                severity: 'CRITICAL',
+                category: 'PLANETARY_DEFENSE',
+                message: rec.action,
+                rationale: rec.rationale
+            });
         });
     }
     
