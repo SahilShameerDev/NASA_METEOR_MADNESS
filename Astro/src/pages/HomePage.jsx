@@ -73,12 +73,7 @@ const AsteroidWebsiteDesign = () => {
           backgroundRepeat: 'no-repeat'
         }}
       >
-        {/* Header */}
-        <header className="absolute top-0 left-0 right-0 p-4 sm:p-6 md:p-8 z-10">
-          <div className="container mx-auto flex justify-between items-center">
-            <h1 className="text-2xl font-bold">Astro</h1>
-          </div>
-        </header>
+
 
         {/* Moon 3D Model - Behind text but in front of background */}
         <Moon />
@@ -88,14 +83,16 @@ const AsteroidWebsiteDesign = () => {
           <h2 
             className="leading-none relative"
             style={{
-              fontSize: 'clamp(3rem, 10vw, 8rem)',
+              fontSize: 'clamp(2rem, 6vw, 5rem)',
               fontWeight: 900,
               letterSpacing: '-0.05em',
               color: 'rgba(255, 255, 255, 0.9)',
-              textShadow: '0 0 20px rgba(0, 0, 0, 0.8)'
+              textShadow: '0 0 20px rgba(0, 0, 0, 0.8)',
+              fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Arial Black", sans-serif',
+              lineHeight: '1.1'
             }}
           >
-            ASTRO
+            PROJECT<br />DOOMSDAY
           </h2>
           <p 
             className="text-lg md:text-xl text-gray-300 mt-2 mb-8 z-10"

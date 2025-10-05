@@ -293,7 +293,7 @@ const AstroidDashboard = () => {
             <div className='flex items-center justify-between'>
               <div>
                 <h1 className='text-4xl font-bold text-white mb-2'>
-                  Astro <span className='font-light text-cyan-400'>Meteoroid Detection</span>
+                  Project Doomsday <span className='font-light text-cyan-400'>Meteoroid Detection</span>
                 </h1>
                 <p className='text-slate-400'>Real-time Near-Earth Object monitoring system</p>
               </div>
