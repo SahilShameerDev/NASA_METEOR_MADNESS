@@ -130,7 +130,7 @@ const AstroidPlayer = () => {
   }, [])
 
   const fetchAsteroidData = async () => {
-    const API_BASE = 'http://localhost:3000'
+    const API_BASE = 'https://nasa-meteor-madness.onrender.com'
     try {
       setLoading(true)
       const response = await fetch(`${API_BASE}?start_date=${dateRange.start}&end_date=${dateRange.end}`)
@@ -153,7 +153,7 @@ const AstroidPlayer = () => {
   }
 
   const submitCustomHit = async () => {
-    const API_BASE = 'http://localhost:3000'
+    const API_BASE = 'https://nasa-meteor-madness.onrender.com'
     try {
       setLoading(true)
       const response = await fetch(`${API_BASE}/custom-hit`, {
