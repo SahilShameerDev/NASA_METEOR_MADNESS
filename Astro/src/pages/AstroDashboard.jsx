@@ -288,8 +288,20 @@ const AstroidPlayer = () => {
               <Home className='w-4 h-4' />
               Home
             </button>
-            <div className='h-6 w-px bg-slate-700'></div>
-            <span className='text-slate-400 text-sm'>Asteroid Detection System</span>
+            <button
+              onClick={() => window.location.href = '/asteroidplayer'}
+              className='bg-cyan-600/80 backdrop-blur-md hover:bg-cyan-700 border border-cyan-500/30 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors'
+            >
+              <Activity className='w-4 h-4' />
+              Dashboard
+            </button>
+            <button
+              onClick={() => window.location.href = '/hit'}
+              className='bg-slate-900/80 backdrop-blur-md hover:bg-slate-800 border border-cyan-500/30 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors'
+            >
+              <Target className='w-4 h-4' />
+              Impact History
+            </button>
           </div>
 
           <div className='mb-8'>
