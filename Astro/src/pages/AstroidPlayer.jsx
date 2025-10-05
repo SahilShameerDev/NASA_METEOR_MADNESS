@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { AlertCircle, TrendingUp, Calendar, Gauge, MapPin, Zap } from 'lucide-react'
-import { useNavigate } from 'react-router-dom'
+import { AlertCircle, TrendingUp, Calendar, Gauge, MapPin, Zap, Plus, X } from 'lucide-react'
 
 const AstroidPlayer = () => {
   const [asteroidData, setAsteroidData] = useState(null)
@@ -10,6 +9,19 @@ const AstroidPlayer = () => {
   const [dateRange, setDateRange] = useState({
     start: '2025-09-01',
     end: '2025-09-07'
+  })
+  const [showCustomForm, setShowCustomForm] = useState(false)
+  const [customData, setCustomData] = useState({
+    date: '2026-03-15',
+    lat: -23.5505,
+    long: -46.6333,
+    velocity: 30.2,
+    diameter: 500,
+    mass: '',
+    density: 3000,
+    approach: 5.2,
+    miss: 25000,
+    hazard: true
   })
 
   useEffect(() => {
@@ -25,7 +37,7 @@ const AstroidPlayer = () => {
       const data = await response.json()
       console.log('API Response:', data)
       setAsteroidData(data)
-
+      
       // Get first asteroid from processedDates
       if (data.processedDates && data.processedDates.length > 0) {
         const firstDate = data.processedDates[0]
@@ -39,6 +51,69 @@ const AstroidPlayer = () => {
     } finally {
       setLoading(false)
     }
+  }
+
+  const submitCustomHit = async () => {
+    const API_BASE = 'http://localhost:3000'
+    try {
+      setLoading(true)
+      const response = await fetch(`${API_BASE}/custom-hit`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(customData)
+      })
+      
+      if (!response.ok) throw new Error('Failed to submit custom hit')
+      const result = await response.json()
+      console.log('Custom Hit Response:', result)
+      
+      // Convert custom hit response to match asteroid structure
+      const customAsteroid = {
+        id: 'CUSTOM-' + Date.now(),
+        name: 'Custom Impact Scenario',
+        isPotentiallyHazardous: customData.hazard,
+        absoluteMagnitude: 0,
+        diameter: {
+          min: result.data.input.size.diameter,
+          max: result.data.input.size.diameter,
+          average: result.data.input.size.diameter,
+          unit: 'meters'
+        },
+        primaryApproach: {
+          closeApproachDate: result.data.input.date,
+          closeApproachDateFull: result.data.geographicImpactData.impactLocation.impactTimestamp,
+          orbitingBody: 'Earth',
+          velocity: result.data.input.velocity,
+          missDistance: {
+            astronomical: result.data.input.approach.lunarDistances / 389,
+            lunar: result.data.input.approach.lunarDistances,
+            kilometers: result.data.input.missDistance.kilometers,
+            miles: result.data.input.missDistance.kilometers * 0.621371
+          },
+          calculations: result.data.calculations
+        },
+        geographicImpactData: result.data.geographicImpactData
+      }
+      
+      setSelectedAsteroid(customAsteroid)
+      setShowCustomForm(false)
+      setError(null)
+      alert('Custom impact scenario created successfully!')
+    } catch (err) {
+      setError(err.message)
+      alert('Error: ' + err.message)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleCustomInputChange = (field, value) => {
+    setCustomData(prev => ({
+      ...prev,
+      [field]: value
+    }))
   }
 
   // Flatten all asteroids from all dates
@@ -56,7 +131,7 @@ const AstroidPlayer = () => {
   }
 
   const getThreatColor = (level) => {
-    switch (level) {
+    switch(level) {
       case 'high': return 'text-red-500'
       case 'medium': return 'text-yellow-500'
       case 'low': return 'text-green-500'
@@ -71,9 +146,9 @@ const AstroidPlayer = () => {
 
   const formatDate = (dateStr) => {
     if (!dateStr) return 'N/A'
-    return new Date(dateStr).toLocaleDateString('en-US', {
-      month: 'short',
-      day: 'numeric',
+    return new Date(dateStr).toLocaleDateString('en-US', { 
+      month: 'short', 
+      day: 'numeric', 
       year: 'numeric',
       hour: '2-digit',
       minute: '2-digit'
@@ -92,25 +167,173 @@ const AstroidPlayer = () => {
   // Calculate average velocity from all asteroids
   const getAverageVelocity = () => {
     if (allAsteroids.length === 0) return 0
-    const total = allAsteroids.reduce((sum, ast) =>
+    const total = allAsteroids.reduce((sum, ast) => 
       sum + (ast.primaryApproach?.velocity?.kilometersPerHour || 0), 0)
     return total / allAsteroids.length
   }
-
-  const navigate = useNavigate()
 
   return (
     <div className='w-full min-h-screen bg-slate-950 p-8'>
       <div className='max-w-7xl mx-auto'>
         <div className='mb-8'>
-          <div className='flex items-center mb-2  justify-between'>
-            <h1 className='text-4xl font-bold text-white mb-2 '>
-              Astro <span className='font-light text-blue-400'>Meteoroid Detection</span>
-            </h1>
-            <button className='text-3xl text-white hover:scale-105' onClick={()=>{navigate("/")}}>Home</button>
+          <div className='flex items-center justify-between'>
+            <div>
+              <h1 className='text-4xl font-bold text-white mb-2'>
+                Astro <span className='font-light text-blue-400'>Meteoroid Detection</span>
+              </h1>
+              <p className='text-slate-400'>Real-time Near-Earth Object monitoring system</p>
+            </div>
+            
+            <div className='flex items-center gap-4'>
+              <div>
+                <label className='block text-slate-400 text-xs mb-1'>Start Date</label>
+                <input
+                  type='date'
+                  value={dateRange.start}
+                  onChange={(e) => setDateRange(prev => ({ ...prev, start: e.target.value }))}
+                  className='bg-slate-800 text-white px-3 py-2 rounded border border-slate-700 focus:border-blue-500 outline-none'
+                />
+              </div>
+              <div>
+                <label className='block text-slate-400 text-xs mb-1'>End Date</label>
+                <input
+                  type='date'
+                  value={dateRange.end}
+                  onChange={(e) => setDateRange(prev => ({ ...prev, end: e.target.value }))}
+                  className='bg-slate-800 text-white px-3 py-2 rounded border border-slate-700 focus:border-blue-500 outline-none'
+                />
+              </div>
+              <button
+                onClick={fetchAsteroidData}
+                disabled={loading}
+                className='mt-5 bg-purple-600 hover:bg-purple-700 disabled:bg-slate-700 text-white px-6 py-2 rounded-lg transition-colors'
+              >
+                {loading ? 'Loading...' : 'Fetch Data'}
+              </button>
+            </div>
           </div>
-          <p className='text-slate-400'>Real-time Near-Earth Object monitoring system</p>
+          
+          <button
+            onClick={() => setShowCustomForm(!showCustomForm)}
+            className='mt-4 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors'
+          >
+            {showCustomForm ? <X className='w-4 h-4' /> : <Plus className='w-4 h-4' />}
+            {showCustomForm ? 'Close' : 'Create Custom Impact Scenario'}
+          </button>
         </div>
+
+        {/* Custom Hit Form */}
+        {showCustomForm && (
+          <div className='bg-slate-900 rounded-lg border border-slate-800 p-6 mb-8'>
+            <h2 className='text-2xl font-bold text-white mb-4'>Custom Impact Scenario</h2>
+            <div className='grid grid-cols-2 gap-4'>
+              <div>
+                <label className='block text-slate-400 text-sm mb-2'>Date (YYYY-MM-DD)</label>
+                <input
+                  type='text'
+                  value={customData.date}
+                  onChange={(e) => handleCustomInputChange('date', e.target.value)}
+                  className='w-full bg-slate-800 text-white px-4 py-2 rounded border border-slate-700 focus:border-blue-500 outline-none'
+                />
+              </div>
+              <div>
+                <label className='block text-slate-400 text-sm mb-2'>Diameter (meters)</label>
+                <input
+                  type='number'
+                  value={customData.diameter}
+                  onChange={(e) => handleCustomInputChange('diameter', parseFloat(e.target.value))}
+                  className='w-full bg-slate-800 text-white px-4 py-2 rounded border border-slate-700 focus:border-blue-500 outline-none'
+                />
+              </div>
+              <div>
+                <label className='block text-slate-400 text-sm mb-2'>Latitude (decimal degrees)</label>
+                <input
+                  type='number'
+                  step='0.0001'
+                  value={customData.lat}
+                  onChange={(e) => handleCustomInputChange('lat', parseFloat(e.target.value))}
+                  className='w-full bg-slate-800 text-white px-4 py-2 rounded border border-slate-700 focus:border-blue-500 outline-none'
+                />
+              </div>
+              <div>
+                <label className='block text-slate-400 text-sm mb-2'>Longitude (decimal degrees)</label>
+                <input
+                  type='number'
+                  step='0.0001'
+                  value={customData.long}
+                  onChange={(e) => handleCustomInputChange('long', parseFloat(e.target.value))}
+                  className='w-full bg-slate-800 text-white px-4 py-2 rounded border border-slate-700 focus:border-blue-500 outline-none'
+                />
+              </div>
+              <div>
+                <label className='block text-slate-400 text-sm mb-2'>Velocity (km/s)</label>
+                <input
+                  type='number'
+                  step='0.1'
+                  value={customData.velocity}
+                  onChange={(e) => handleCustomInputChange('velocity', parseFloat(e.target.value))}
+                  className='w-full bg-slate-800 text-white px-4 py-2 rounded border border-slate-700 focus:border-blue-500 outline-none'
+                />
+              </div>
+              <div>
+                <label className='block text-slate-400 text-sm mb-2'>Density (kg/m³)</label>
+                <input
+                  type='number'
+                  value={customData.density}
+                  onChange={(e) => handleCustomInputChange('density', parseFloat(e.target.value))}
+                  className='w-full bg-slate-800 text-white px-4 py-2 rounded border border-slate-700 focus:border-blue-500 outline-none'
+                />
+              </div>
+              <div>
+                <label className='block text-slate-400 text-sm mb-2'>Approach Distance (Lunar Distances)</label>
+                <input
+                  type='number'
+                  step='0.1'
+                  value={customData.approach}
+                  onChange={(e) => handleCustomInputChange('approach', parseFloat(e.target.value))}
+                  className='w-full bg-slate-800 text-white px-4 py-2 rounded border border-slate-700 focus:border-blue-500 outline-none'
+                />
+              </div>
+              <div>
+                <label className='block text-slate-400 text-sm mb-2'>Miss Distance (km)</label>
+                <input
+                  type='number'
+                  value={customData.miss}
+                  onChange={(e) => handleCustomInputChange('miss', parseFloat(e.target.value))}
+                  className='w-full bg-slate-800 text-white px-4 py-2 rounded border border-slate-700 focus:border-blue-500 outline-none'
+                />
+              </div>
+              <div>
+                <label className='block text-slate-400 text-sm mb-2'>Mass (kg) - Optional</label>
+                <input
+                  type='number'
+                  value={customData.mass}
+                  onChange={(e) => handleCustomInputChange('mass', e.target.value)}
+                  placeholder='Auto-calculated if empty'
+                  className='w-full bg-slate-800 text-white px-4 py-2 rounded border border-slate-700 focus:border-blue-500 outline-none'
+                />
+              </div>
+              <div className='flex items-end'>
+                <label className='flex items-center text-white cursor-pointer'>
+                  <input
+                    type='checkbox'
+                    checked={customData.hazard}
+                    onChange={(e) => handleCustomInputChange('hazard', e.target.checked)}
+                    className='w-5 h-5 mr-2'
+                  />
+                  Potentially Hazardous
+                </label>
+              </div>
+            </div>
+            <button
+              onClick={submitCustomHit}
+              disabled={loading}
+              className='mt-6 w-full bg-green-600 hover:bg-green-700 disabled:bg-slate-700 text-white py-3 rounded-lg font-semibold transition-colors'
+            >
+              {loading ? 'Processing...' : 'Calculate Impact'}
+            </button>
+          </div>
+        )}
 
         {loading ? (
           <div className='flex items-center justify-center h-96'>
@@ -169,8 +392,9 @@ const AstroidPlayer = () => {
                       <div
                         key={asteroid.id || idx}
                         onClick={() => setSelectedAsteroid(asteroid)}
-                        className={`p-4 border-b border-slate-800 cursor-pointer transition-colors ${isSelected ? 'bg-slate-800' : 'hover:bg-slate-800/50'
-                          }`}
+                        className={`p-4 border-b border-slate-800 cursor-pointer transition-colors ${
+                          isSelected ? 'bg-slate-800' : 'hover:bg-slate-800/50'
+                        }`}
                       >
                         <div className='flex items-start justify-between mb-2'>
                           <div className='flex-1'>
@@ -208,7 +432,7 @@ const AstroidPlayer = () => {
                 {selectedAsteroid ? (
                   <div className='h-full overflow-y-auto p-6'>
                     <h2 className='text-2xl font-bold text-white mb-4'>{selectedAsteroid.name}</h2>
-
+                    
                     <div className='space-y-6'>
                       {/* Threat Assessment */}
                       <div>
@@ -344,7 +568,7 @@ const AstroidPlayer = () => {
                             <div className='flex justify-between'>
                               <span className='text-slate-400'>Impact Location</span>
                               <span className='text-white font-medium text-xs'>
-                                {formatNumber(selectedAsteroid.geographicImpactData.impactLocation?.estimatedImpactPoint?.latitude)}°,
+                                {formatNumber(selectedAsteroid.geographicImpactData.impactLocation?.estimatedImpactPoint?.latitude)}°, 
                                 {formatNumber(selectedAsteroid.geographicImpactData.impactLocation?.estimatedImpactPoint?.longitude)}°
                               </span>
                             </div>
