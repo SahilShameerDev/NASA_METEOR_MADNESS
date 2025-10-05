@@ -112,22 +112,7 @@ const AsteroidWebsiteDesign = () => {
           </button>
         </main>
         
-        {/* Background Images */}
-        <img 
-          ref={astronautRef}
-          src="https://static.vecteezy.com/system/resources/previews/025/182/015/original/3d-realistic-astronaut-in-outer-space-generative-ai-png.png" 
-          alt="Astronaut floating in space" 
-          className="absolute pointer-events-none transition-transform duration-200 ease-out"
-          style={{
-            width: '50%',
-            maxWidth: '600px',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%) rotate(-15deg)',
-            zIndex: 3
-          }}
-          onError={(e) => e.target.style.display = 'none'}
-        />
+
         <img 
           ref={earthRef}
           src="https://assets.stickpng.com/images/580b585b2edbce24c47b270b.png" 
