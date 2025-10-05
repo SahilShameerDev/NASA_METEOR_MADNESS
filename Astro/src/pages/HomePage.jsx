@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+  import React, { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import Moon from '../components/Moon';
