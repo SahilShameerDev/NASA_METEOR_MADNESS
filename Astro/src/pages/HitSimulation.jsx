@@ -32,6 +32,7 @@ export default function ImpactDashboard() {
   });
   const [selectedAsteroid, setSelectedAsteroid] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [showMap, setShowMap] = useState(true);
 
   // Animated space background
   useEffect(() => {
@@ -139,6 +140,9 @@ export default function ImpactDashboard() {
     const API_BASE = 'https://nasa-meteor-madness.onrender.com';
     try {
       setLoading(true);
+      // Close the map to ensure refresh
+      setShowMap(false);
+      
       const response = await fetch(`${API_BASE}/custom-hit`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -147,14 +151,24 @@ export default function ImpactDashboard() {
       if (!response.ok) throw new Error('Failed to submit custom hit');
       const result = await response.json();
       setSelectedAsteroid(result.data);
+      
+      // Wait a brief moment then reopen the map
+      setTimeout(() => {
+        setShowMap(true);
+      }, 100);
     } catch (err) {
       alert(err.message);
+      // Reopen map even if there's an error
+      setShowMap(true);
     } finally {
       setLoading(false);
     }
   };
 
-  const resetSimulation = () => setSelectedAsteroid(null);
+  const resetSimulation = () => {
+    setSelectedAsteroid(null);
+    setShowMap(true);
+  };
 
   const renderLegend = (type) => {
     switch(type) {
@@ -370,30 +384,48 @@ export default function ImpactDashboard() {
               <TabPanel>
                 {renderLegend('blast')}
                 <div className="rounded-xl overflow-hidden border-2 border-slate-700/60 shadow-2xl">
-                  <MapContainer center={[customData.lat, customData.long]} zoom={8} style={{ height: '600px', width: '100%' }}>
-                    <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" attribution="© OpenStreetMap contributors"/>
-                    {renderMapCircles('blast')}
-                  </MapContainer>
+                  {showMap ? (
+                    <MapContainer key={`blast-${Date.now()}`} center={[customData.lat, customData.long]} zoom={8} style={{ height: '600px', width: '100%' }}>
+                      <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" attribution="© OpenStreetMap contributors"/>
+                      {renderMapCircles('blast')}
+                    </MapContainer>
+                  ) : (
+                    <div className="h-[600px] w-full bg-slate-800 flex items-center justify-center">
+                      <div className="text-white">Loading map...</div>
+                    </div>
+                  )}
                 </div>
               </TabPanel>
 
               <TabPanel>
                 {renderLegend('thermal')}
                 <div className="rounded-xl overflow-hidden border-2 border-slate-700/60 shadow-2xl">
-                  <MapContainer center={[customData.lat, customData.long]} zoom={8} style={{ height: '600px', width: '100%' }}>
-                    <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" attribution="© OpenStreetMap contributors"/>
-                    {renderMapCircles('thermal')}
-                  </MapContainer>
+                  {showMap ? (
+                    <MapContainer key={`thermal-${Date.now()}`} center={[customData.lat, customData.long]} zoom={8} style={{ height: '600px', width: '100%' }}>
+                      <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" attribution="© OpenStreetMap contributors"/>
+                      {renderMapCircles('thermal')}
+                    </MapContainer>
+                  ) : (
+                    <div className="h-[600px] w-full bg-slate-800 flex items-center justify-center">
+                      <div className="text-white">Loading map...</div>
+                    </div>
+                  )}
                 </div>
               </TabPanel>
 
               <TabPanel>
                 {renderLegend('evacuation')}
                 <div className="rounded-xl overflow-hidden border-2 border-slate-700/60 shadow-2xl">
-                  <MapContainer center={[customData.lat, customData.long]} zoom={8} style={{ height: '600px', width: '100%' }}>
-                    <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" attribution="© OpenStreetMap contributors"/>
-                    {renderMapCircles('evacuation')}
-                  </MapContainer>
+                  {showMap ? (
+                    <MapContainer key={`evacuation-${Date.now()}`} center={[customData.lat, customData.long]} zoom={8} style={{ height: '600px', width: '100%' }}>
+                      <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" attribution="© OpenStreetMap contributors"/>
+                      {renderMapCircles('evacuation')}
+                    </MapContainer>
+                  ) : (
+                    <div className="h-[600px] w-full bg-slate-800 flex items-center justify-center">
+                      <div className="text-white">Loading map...</div>
+                    </div>
+                  )}
                 </div>
               </TabPanel>
             </Tabs>
