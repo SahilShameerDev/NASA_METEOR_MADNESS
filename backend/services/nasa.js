@@ -4,7 +4,7 @@ const NASA_API_KEY = 'Aws2id8N4lIlkqJ5wf135gCEcynNgH1Ky8J7wmD2';
 
 const nasaApi = axios.create({
   baseURL: 'https://api.nasa.gov',
-  timeout: 5000
+  timeout: 30000  // Increased to 30 seconds
 });
 
 async function getApod(params = {}) {
