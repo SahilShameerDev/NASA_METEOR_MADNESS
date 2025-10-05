@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import AsteroidWebsiteDesign from './pages/HomePage'
-import AstroidPlayer from './pages/AstroidDashboard'
+import AstroidPlayer from './pages/AstroDashboard'
 
 const App = () => {
   return (
