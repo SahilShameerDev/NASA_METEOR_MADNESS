@@ -1,9 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Globe, AlertTriangle, Shield, Target, Activity, MapPin, Droplets, Mountain } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const AsteroidWebsiteDesign = () => {
   const [activePage, setActivePage] = useState('home');
   const canvasRef = useRef(null);
+
+    const navigate = useNavigate();
 
   // Animated space background with asteroids
   useEffect(() => {
@@ -125,11 +128,10 @@ const AsteroidWebsiteDesign = () => {
             <button
               key={page}
               onClick={() => setActivePage(page)}
-              className={`px-4 py-2 rounded-lg transition-all ${
-                activePage === page
+              className={`px-4 py-2 rounded-lg transition-all ${activePage === page
                   ? 'bg-cyan-500 text-white'
                   : 'text-gray-300 hover:text-cyan-400'
-              }`}
+                }`}
             >
               {page.charAt(0).toUpperCase() + page.slice(1)}
             </button>
@@ -151,7 +153,9 @@ const AsteroidWebsiteDesign = () => {
           <p className="text-xl text-gray-300 max-w-3xl mx-auto mb-12">
             Real-time monitoring and analysis of potentially hazardous asteroids approaching Earth
           </p>
-          <button className="bg-cyan-500 hover:bg-cyan-600 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all transform hover:scale-105">
+          <button
+            onClick={() => navigate("/asteroidplayer")}
+            className="bg-cyan-500 hover:bg-cyan-600 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all transform hover:scale-105">
             View Active Threats
           </button>
         </div>
@@ -165,7 +169,7 @@ const AsteroidWebsiteDesign = () => {
               Calculate precise impact probabilities using orbital mechanics and trajectory analysis
             </p>
           </div>
-          
+
           <div className="bg-slate-800/70 backdrop-blur-sm border border-orange-500/30 rounded-xl p-6 hover:border-orange-500 transition-all">
             <MapPin className="w-12 h-12 text-orange-400 mb-4" />
             <h3 className="text-xl font-bold text-white mb-3">Impact Location</h3>
@@ -173,7 +177,7 @@ const AsteroidWebsiteDesign = () => {
               Predict potential impact zones with geographic precision and risk mapping
             </p>
           </div>
-          
+
           <div className="bg-slate-800/70 backdrop-blur-sm border border-green-500/30 rounded-xl p-6 hover:border-green-500 transition-all">
             <Shield className="w-12 h-12 text-green-400 mb-4" />
             <h3 className="text-xl font-bold text-white mb-3">Mitigation Plans</h3>
@@ -208,7 +212,7 @@ const AsteroidWebsiteDesign = () => {
     <div className="min-h-screen relative z-10">
       <div className="max-w-7xl mx-auto px-8 py-12">
         <h1 className="text-4xl font-bold text-white mb-8">Impact Probability Analysis</h1>
-        
+
         {/* Asteroid Info Card */}
         <div className="bg-slate-800/80 backdrop-blur-sm border border-cyan-500/50 rounded-xl p-8 mb-8">
           <div className="grid md:grid-cols-2 gap-8">
@@ -233,12 +237,12 @@ const AsteroidWebsiteDesign = () => {
                 </div>
               </div>
             </div>
-            
+
             <div>
               <h3 className="text-xl font-bold text-white mb-4">Impact Probability</h3>
               <div className="relative">
                 <div className="w-full bg-slate-700 rounded-full h-12 mb-4">
-                  <div className="bg-gradient-to-r from-green-500 via-yellow-500 to-red-500 h-12 rounded-full" style={{width: '23%'}}></div>
+                  <div className="bg-gradient-to-r from-green-500 via-yellow-500 to-red-500 h-12 rounded-full" style={{ width: '23%' }}></div>
                 </div>
                 <div className="text-center">
                   <p className="text-5xl font-bold text-yellow-400">0.023%</p>
@@ -281,7 +285,7 @@ const AsteroidWebsiteDesign = () => {
     <div className="min-h-screen relative z-10">
       <div className="max-w-7xl mx-auto px-8 py-12">
         <h1 className="text-4xl font-bold text-white mb-8">Impact Analysis & Location</h1>
-        
+
         {/* Map Visualization */}
         <div className="bg-slate-800/80 backdrop-blur-sm border border-cyan-500/50 rounded-xl p-8 mb-8">
           <h2 className="text-2xl font-bold text-white mb-6">Potential Impact Zones</h2>
@@ -296,7 +300,7 @@ const AsteroidWebsiteDesign = () => {
               <p className="text-red-400 font-semibold text-sm">HIGH RISK ZONE</p>
             </div>
           </div>
-          
+
           <div className="grid md:grid-cols-3 gap-4 mt-6">
             <div className="bg-slate-900/70 backdrop-blur-sm p-4 rounded-lg border border-red-500/30">
               <p className="text-gray-400 text-sm">Primary Impact Zone</p>
@@ -372,7 +376,7 @@ const AsteroidWebsiteDesign = () => {
     <div className="min-h-screen relative z-10">
       <div className="max-w-7xl mx-auto px-8 py-12">
         <h1 className="text-4xl font-bold text-white mb-8">Mitigation Strategies</h1>
-        
+
         {/* Strategy Overview */}
         <div className="bg-slate-800/80 backdrop-blur-sm border border-green-500/50 rounded-xl p-8 mb-8">
           <div className="flex items-center gap-3 mb-6">
@@ -382,7 +386,7 @@ const AsteroidWebsiteDesign = () => {
           <p className="text-gray-400 mb-6">
             Multiple deflection and mitigation strategies based on threat timeline, asteroid composition, and impact probability
           </p>
-          
+
           <div className="grid md:grid-cols-4 gap-4">
             {[
               { label: 'Lead Time', value: '4.5 years', color: 'green' },
@@ -409,7 +413,7 @@ const AsteroidWebsiteDesign = () => {
                 <span className="text-white font-semibold">High</span>
               </div>
               <div className="w-full bg-slate-700 rounded-full h-2">
-                <div className="bg-cyan-500 h-2 rounded-full" style={{width: '85%'}}></div>
+                <div className="bg-cyan-500 h-2 rounded-full" style={{ width: '85%' }}></div>
               </div>
             </div>
             <p className="text-gray-400 text-sm mb-4">
@@ -439,7 +443,7 @@ const AsteroidWebsiteDesign = () => {
                 <span className="text-white font-semibold">Moderate</span>
               </div>
               <div className="w-full bg-slate-700 rounded-full h-2">
-                <div className="bg-purple-500 h-2 rounded-full" style={{width: '65%'}}></div>
+                <div className="bg-purple-500 h-2 rounded-full" style={{ width: '65%' }}></div>
               </div>
             </div>
             <p className="text-gray-400 text-sm mb-4">
@@ -469,7 +473,7 @@ const AsteroidWebsiteDesign = () => {
                 <span className="text-white font-semibold">Very High</span>
               </div>
               <div className="w-full bg-slate-700 rounded-full h-2">
-                <div className="bg-orange-500 h-2 rounded-full" style={{width: '95%'}}></div>
+                <div className="bg-orange-500 h-2 rounded-full" style={{ width: '95%' }}></div>
               </div>
             </div>
             <p className="text-gray-400 text-sm mb-4">
@@ -499,7 +503,7 @@ const AsteroidWebsiteDesign = () => {
                 <span className="text-white font-semibold">Moderate</span>
               </div>
               <div className="w-full bg-slate-700 rounded-full h-2">
-                <div className="bg-blue-500 h-2 rounded-full" style={{width: '70%'}}></div>
+                <div className="bg-blue-500 h-2 rounded-full" style={{ width: '70%' }}></div>
               </div>
             </div>
             <p className="text-gray-400 text-sm mb-4">
@@ -555,7 +559,7 @@ const AsteroidWebsiteDesign = () => {
         className="fixed inset-0 w-full h-full"
         style={{ background: 'linear-gradient(to bottom, #0f172a, #1e293b, #0f172a)' }}
       />
-      
+
       {/* Content Overlay */}
       <div className="relative z-10">
         <NavBar />
