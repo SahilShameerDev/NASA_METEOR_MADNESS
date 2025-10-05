@@ -297,140 +297,169 @@ export default function ImpactDashboard() {
           </div>
 
           {/* Page Title */}
-          <div className="mb-8">
+          <div className="mb-6">
             <div className="flex items-center justify-between">
               <div>
-                <h1 className='text-4xl font-bold text-white mb-2'>
+                <h1 className='text-3xl font-bold text-white mb-2'>
                   Asteroid Impact <span className='font-light text-cyan-400'>Simulator</span>
                 </h1>
-                <p className='text-slate-400'>Real-time impact analysis and visualization system</p>
+                <p className='text-slate-400 text-sm'>Real-time impact analysis and visualization system</p>
               </div>
             </div>
           </div>
 
-        {/* Form Card */}
-        <div className="bg-slate-900/80 backdrop-blur-md rounded-lg p-6 mb-6 border border-slate-700">
-          <div className="mb-6">
-            <h2 className="text-2xl font-bold text-white mb-4">
-              Custom Impact Scenario
-            </h2>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            {[
-              {label: 'Impact Date', name: 'date', type:'date', value: customData.date, icon: <Target className="w-4 h-4" />},
-              {label: 'Latitude', name:'lat', type:'number', value: customData.lat, icon: <MapPin className="w-4 h-4" />},
-              {label: 'Longitude', name:'long', type:'number', value: customData.long, icon: <MapPin className="w-4 h-4" />},
-              {label: 'Velocity (km/s)', name:'velocity', type:'number', value: customData.velocity, icon: <Zap className="w-4 h-4" />},
-              {label: 'Diameter (m)', name:'diameter', type:'number', value: customData.diameter, icon: <Activity className="w-4 h-4" />},
-              {label: 'Miss Distance (km)', name:'miss', type:'number', value: customData.miss, icon: <Radio className="w-4 h-4" />}
-            ].map(field => (
-              <div className="flex flex-col group" key={field.name}>
-                <label className="block text-slate-400 text-sm mb-2">
-                  <span className="text-cyan-400">{field.icon}</span>
-                  {field.label}
-                </label>
-                <input
-                  type={field.type}
-                  name={field.name}
-                  value={field.value}
-                  onChange={handleChange}
-                  className="p-3 rounded-xl bg-slate-800/70 backdrop-blur-sm text-white border border-slate-700/60 outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-400/60 transition-all duration-300 hover:bg-slate-800/90 hover:border-slate-600/80"
-                  step={field.type === 'number' ? 'any' : undefined}
-                />
-              </div>
-            ))}
-          </div>
-
-          <div className="flex gap-4 mt-6">
-            <button 
-              className="bg-green-600 hover:bg-green-700 disabled:bg-slate-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors flex items-center gap-2"
-              onClick={submitCustomHit} 
-              disabled={loading}
-            >
-              <Zap className={`w-5 h-5 ${loading ? 'animate-spin' : ''}`} />
-              {loading ? 'Simulating Impact...' : 'Run Simulation'}
-            </button>
+        {/* Main Content Grid - Form and Map Side by Side */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+          {/* Left Side - Form Card */}
+          <div className="bg-slate-900/80 backdrop-blur-md rounded-lg p-4 border border-slate-700">
+            <div className="mb-4">
+              <h2 className="text-xl font-bold text-white mb-3">
+                Custom Impact Scenario
+              </h2>
+            </div>
             
-            <button 
-              className="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors flex items-center gap-2"
-              onClick={resetSimulation}
-            >
-              <Target className="w-5 h-5" />
-              Reset Simulation
-            </button>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              {[
+                {label: 'Impact Date', name: 'date', type:'date', value: customData.date, icon: <Target className="w-3 h-3" />},
+                {label: 'Latitude', name:'lat', type:'number', value: customData.lat, icon: <MapPin className="w-3 h-3" />},
+                {label: 'Longitude', name:'long', type:'number', value: customData.long, icon: <MapPin className="w-3 h-3" />},
+                {label: 'Velocity (km/s)', name:'velocity', type:'number', value: customData.velocity, icon: <Zap className="w-3 h-3" />},
+                {label: 'Diameter (m)', name:'diameter', type:'number', value: customData.diameter, icon: <Activity className="w-3 h-3" />},
+                {label: 'Miss Distance (km)', name:'miss', type:'number', value: customData.miss, icon: <Radio className="w-3 h-3" />}
+              ].map(field => (
+                <div className="flex flex-col group" key={field.name}>
+                  <label className="block text-slate-400 text-xs mb-1">
+                    <span className="text-cyan-400">{field.icon}</span>
+                    {field.label}
+                  </label>
+                  <input
+                    type={field.type}
+                    name={field.name}
+                    value={field.value}
+                    onChange={handleChange}
+                    className="p-2 rounded-lg bg-slate-800/70 backdrop-blur-sm text-white border border-slate-700/60 outline-none focus:ring-1 focus:ring-cyan-500/50 focus:border-cyan-400/60 transition-all duration-300 hover:bg-slate-800/90 hover:border-slate-600/80 text-sm"
+                    step={field.type === 'number' ? 'any' : undefined}
+                  />
+                </div>
+              ))}
+            </div>
+
+            <div className="flex gap-3 mt-4">
+              <button 
+                className="bg-green-600 hover:bg-green-700 disabled:bg-slate-700 text-white px-4 py-2 rounded-lg font-semibold transition-colors flex items-center gap-2 text-sm"
+                onClick={submitCustomHit} 
+                disabled={loading}
+              >
+                <Zap className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
+                {loading ? 'Simulating...' : 'Run Simulation'}
+              </button>
+              
+              <button 
+                className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-semibold transition-colors flex items-center gap-2 text-sm"
+                onClick={resetSimulation}
+              >
+                <Target className="w-4 h-4" />
+                Reset
+              </button>
+            </div>
           </div>
-        </div>
 
-        {/* Tabs Section */}
-        {selectedAsteroid && (
-          <div className="bg-slate-900/80 backdrop-blur-md rounded-lg p-6 border border-slate-700">
-            <Tabs>
-              <TabList className="flex gap-3 mb-6 border-b border-slate-700 pb-4">
-                <Tab className="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-600 text-slate-300 hover:text-white transition-colors cursor-pointer font-semibold flex items-center gap-2">
-                  <Zap className="w-4 h-4" />
-                  Blast Zones
-                </Tab>
-                <Tab className="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-600 text-slate-300 hover:text-white transition-colors cursor-pointer font-semibold flex items-center gap-2">
-                  <Flame className="w-4 h-4" />
-                  Thermal Radiation
-                </Tab>
-                <Tab className="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-600 text-slate-300 hover:text-white transition-colors cursor-pointer font-semibold flex items-center gap-2">
-                  <Users className="w-4 h-4" />
-                  Evacuation Zones
-                </Tab>
-              </TabList>
+          {/* Right Side - Map Preview with Tabs */}
+          <div className="bg-slate-900/80 backdrop-blur-md rounded-lg p-4 border border-slate-700">
+            <h3 className="text-lg font-bold text-white mb-3">Impact Preview</h3>
+            {selectedAsteroid && showMap ? (
+              <Tabs>
+                <TabList className="flex gap-1 mb-3 border-b border-slate-700 pb-2">
+                  <Tab className="px-2 py-1 rounded-md bg-slate-800 hover:bg-slate-700 border border-slate-600 text-slate-300 hover:text-white transition-colors cursor-pointer font-medium flex items-center gap-1 text-xs">
+                    <Zap className="w-2 h-2" />
+                    Blast
+                  </Tab>
+                  <Tab className="px-2 py-1 rounded-md bg-slate-800 hover:bg-slate-700 border border-slate-600 text-slate-300 hover:text-white transition-colors cursor-pointer font-medium flex items-center gap-1 text-xs">
+                    <Flame className="w-2 h-2" />
+                    Thermal
+                  </Tab>
+                  <Tab className="px-2 py-1 rounded-md bg-slate-800 hover:bg-slate-700 border border-slate-600 text-slate-300 hover:text-white transition-colors cursor-pointer font-medium flex items-center gap-1 text-xs">
+                    <Users className="w-2 h-2" />
+                    Evacuation
+                  </Tab>
+                </TabList>
 
-              <TabPanel>
-                {renderLegend('blast')}
-                <div className="rounded-xl overflow-hidden border-2 border-slate-700/60 shadow-2xl">
-                  {showMap ? (
-                    <MapContainer key={`blast-${Date.now()}`} center={[customData.lat, customData.long]} zoom={8} style={{ height: '600px', width: '100%' }}>
+                <TabPanel>
+                  <div className="rounded-lg overflow-hidden border border-slate-600">
+                    <MapContainer key={`preview-blast-${Date.now()}`} center={[customData.lat, customData.long]} zoom={6} style={{ height: '250px', width: '100%' }}>
                       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" attribution="© OpenStreetMap contributors"/>
                       {renderMapCircles('blast')}
                     </MapContainer>
-                  ) : (
-                    <div className="h-[600px] w-full bg-slate-800 flex items-center justify-center">
-                      <div className="text-white">Loading map...</div>
-                    </div>
-                  )}
-                </div>
-              </TabPanel>
+                  </div>
+                  <div className="flex gap-1 flex-wrap mt-1 justify-center">
+                    <span className="flex items-center gap-1 text-xs text-slate-400">
+                      <span className="w-2 h-2 rounded-full bg-red-600"></span>Total Destruction
+                    </span>
+                    <span className="flex items-center gap-1 text-xs text-slate-400">
+                      <span className="w-2 h-2 rounded-full bg-orange-500"></span>Severe Damage
+                    </span>
+                    <span className="flex items-center gap-1 text-xs text-slate-400">
+                      <span className="w-2 h-2 rounded-full bg-yellow-500"></span>Moderate Damage
+                    </span>
+                    <span className="flex items-center gap-1 text-xs text-slate-400">
+                      <span className="w-2 h-2 rounded-full bg-green-500"></span>Light Damage
+                    </span>
+                  </div>
+                </TabPanel>
 
-              <TabPanel>
-                {renderLegend('thermal')}
-                <div className="rounded-xl overflow-hidden border-2 border-slate-700/60 shadow-2xl">
-                  {showMap ? (
-                    <MapContainer key={`thermal-${Date.now()}`} center={[customData.lat, customData.long]} zoom={8} style={{ height: '600px', width: '100%' }}>
+                <TabPanel>
+                  <div className="rounded-lg overflow-hidden border border-slate-600">
+                    <MapContainer key={`preview-thermal-${Date.now()}`} center={[customData.lat, customData.long]} zoom={6} style={{ height: '250px', width: '100%' }}>
                       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" attribution="© OpenStreetMap contributors"/>
                       {renderMapCircles('thermal')}
                     </MapContainer>
-                  ) : (
-                    <div className="h-[600px] w-full bg-slate-800 flex items-center justify-center">
-                      <div className="text-white">Loading map...</div>
-                    </div>
-                  )}
-                </div>
-              </TabPanel>
+                  </div>
+                  <div className="flex gap-1 flex-wrap mt-1 justify-center">
+                    <span className="flex items-center gap-1 text-xs text-slate-400">
+                      <span className="w-2 h-2 rounded-full bg-red-600"></span>3rd Degree Burns
+                    </span>
+                    <span className="flex items-center gap-1 text-xs text-slate-400">
+                      <span className="w-2 h-2 rounded-full bg-orange-500"></span>2nd Degree Burns
+                    </span>
+                    <span className="flex items-center gap-1 text-xs text-slate-400">
+                      <span className="w-2 h-2 rounded-full bg-yellow-500"></span>Fire Ignition
+                    </span>
+                  </div>
+                </TabPanel>
 
-              <TabPanel>
-                {renderLegend('evacuation')}
-                <div className="rounded-xl overflow-hidden border-2 border-slate-700/60 shadow-2xl">
-                  {showMap ? (
-                    <MapContainer key={`evacuation-${Date.now()}`} center={[customData.lat, customData.long]} zoom={8} style={{ height: '600px', width: '100%' }}>
+                <TabPanel>
+                  <div className="rounded-lg overflow-hidden border border-slate-600">
+                    <MapContainer key={`preview-evacuation-${Date.now()}`} center={[customData.lat, customData.long]} zoom={6} style={{ height: '250px', width: '100%' }}>
                       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" attribution="© OpenStreetMap contributors"/>
                       {renderMapCircles('evacuation')}
                     </MapContainer>
-                  ) : (
-                    <div className="h-[600px] w-full bg-slate-800 flex items-center justify-center">
-                      <div className="text-white">Loading map...</div>
-                    </div>
-                  )}
+                  </div>
+                  <div className="flex gap-1 flex-wrap mt-1 justify-center">
+                    <span className="flex items-center gap-1 text-xs text-slate-400">
+                      <span className="w-2 h-2 rounded-full bg-blue-500"></span>Safe Zone
+                    </span>
+                    <span className="flex items-center gap-1 text-xs text-slate-400">
+                      <span className="w-2 h-2 rounded-full bg-green-500"></span>Evacuation Route
+                    </span>
+                    <span className="flex items-center gap-1 text-xs text-slate-400">
+                      <span className="w-2 h-2 rounded-full bg-yellow-500"></span>Warning Zone
+                    </span>
+                    <span className="flex items-center gap-1 text-xs text-slate-400">
+                      <span className="w-2 h-2 rounded-full bg-red-500"></span>Danger Zone
+                    </span>
+                  </div>
+                </TabPanel>
+              </Tabs>
+            ) : (
+              <div className="h-[300px] w-full bg-slate-800 rounded-lg flex items-center justify-center border border-slate-600">
+                <div className="text-slate-400 text-center">
+                  <Globe className="w-12 h-12 mx-auto mb-2 text-slate-500" />
+                  <p className="text-sm">{selectedAsteroid ? 'Loading map...' : 'Run simulation to see impact preview'}</p>
                 </div>
-              </TabPanel>
-            </Tabs>
+              </div>
+            )}
           </div>
-        )}
+        </div>
       </div>
 
       <style>{`
