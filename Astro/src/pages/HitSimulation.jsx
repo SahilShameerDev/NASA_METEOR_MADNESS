@@ -284,25 +284,20 @@ export default function ImpactDashboard() {
 
           {/* Page Title */}
           <div className="mb-8">
-            <div className="flex items-center gap-4">
-              <div className="relative">
-                <Rocket className="w-10 h-10 text-cyan-400" />
-                <div className="absolute -inset-1 bg-cyan-500/20 rounded-full blur-xl"></div>
+            <div className="flex items-center justify-between">
+              <div>
+                <h1 className='text-4xl font-bold text-white mb-2'>
+                  Asteroid Impact <span className='font-light text-cyan-400'>Simulator</span>
+                </h1>
+                <p className='text-slate-400'>Real-time impact analysis and visualization system</p>
               </div>
-              <h1 className="text-4xl md:text-5xl font-black bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-500 bg-clip-text text-transparent tracking-tight">
-                Asteroid Impact Simulator
-              </h1>
             </div>
           </div>
 
         {/* Form Card */}
-        <div className="bg-slate-900/60 backdrop-blur-xl rounded-2xl p-8 mb-8 border border-slate-700/60 shadow-2xl">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="relative">
-              <Globe className="w-7 h-7 text-blue-400" />
-              <div className="absolute -inset-1 bg-blue-500/20 rounded-full blur-lg"></div>
-            </div>
-            <h2 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">
+        <div className="bg-slate-900/80 backdrop-blur-md rounded-lg p-6 mb-6 border border-slate-700">
+          <div className="mb-6">
+            <h2 className="text-2xl font-bold text-white mb-4">
               Custom Impact Scenario
             </h2>
           </div>
@@ -317,7 +312,7 @@ export default function ImpactDashboard() {
               {label: 'Miss Distance (km)', name:'miss', type:'number', value: customData.miss, icon: <Radio className="w-4 h-4" />}
             ].map(field => (
               <div className="flex flex-col group" key={field.name}>
-                <label className="mb-2 text-slate-300 font-semibold text-sm flex items-center gap-2">
+                <label className="block text-slate-400 text-sm mb-2">
                   <span className="text-cyan-400">{field.icon}</span>
                   {field.label}
                 </label>
@@ -335,40 +330,38 @@ export default function ImpactDashboard() {
 
           <div className="flex gap-4 mt-6">
             <button 
-              className="group relative flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 rounded-xl font-bold text-white shadow-xl transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none overflow-hidden"
+              className="bg-green-600 hover:bg-green-700 disabled:bg-slate-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors flex items-center gap-2"
               onClick={submitCustomHit} 
               disabled={loading}
             >
-              <div className="absolute inset-0 bg-gradient-to-r from-emerald-400/0 via-white/20 to-emerald-400/0 translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700"></div>
-              <Zap className={`w-5 h-5 relative z-10 ${loading ? 'animate-spin' : ''}`} />
-              <span className="relative z-10">{loading ? 'Simulating Impact...' : 'Run Simulation'}</span>
+              <Zap className={`w-5 h-5 ${loading ? 'animate-spin' : ''}`} />
+              {loading ? 'Simulating Impact...' : 'Run Simulation'}
             </button>
             
             <button 
-              className="group relative flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-rose-600 to-pink-600 hover:from-rose-500 hover:to-pink-500 rounded-xl font-bold text-white shadow-xl transition-all duration-300 transform hover:scale-105 overflow-hidden"
+              className="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors flex items-center gap-2"
               onClick={resetSimulation}
             >
-              <div className="absolute inset-0 bg-gradient-to-r from-rose-400/0 via-white/20 to-rose-400/0 translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700"></div>
-              <Target className="w-5 h-5 relative z-10 group-hover:rotate-180 transition-transform duration-500" />
-              <span className="relative z-10">Reset Simulation</span>
+              <Target className="w-5 h-5" />
+              Reset Simulation
             </button>
           </div>
         </div>
 
         {/* Tabs Section */}
         {selectedAsteroid && (
-          <div className="bg-slate-900/60 backdrop-blur-xl rounded-2xl p-8 border border-slate-700/60 shadow-2xl">
+          <div className="bg-slate-900/80 backdrop-blur-md rounded-lg p-6 border border-slate-700">
             <Tabs>
-              <TabList className="flex gap-3 mb-6 border-b border-slate-700/50 pb-4">
-                <Tab className="flex items-center gap-2 px-6 py-3 rounded-xl bg-slate-800/50 hover:bg-slate-700/70 border border-slate-700/50 hover:border-red-500/50 transition-all duration-300 cursor-pointer font-semibold text-slate-300 hover:text-red-400">
+              <TabList className="flex gap-3 mb-6 border-b border-slate-700 pb-4">
+                <Tab className="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-600 text-slate-300 hover:text-white transition-colors cursor-pointer font-semibold flex items-center gap-2">
                   <Zap className="w-4 h-4" />
                   Blast Zones
                 </Tab>
-                <Tab className="flex items-center gap-2 px-6 py-3 rounded-xl bg-slate-800/50 hover:bg-slate-700/70 border border-slate-700/50 hover:border-orange-500/50 transition-all duration-300 cursor-pointer font-semibold text-slate-300 hover:text-orange-400">
+                <Tab className="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-600 text-slate-300 hover:text-white transition-colors cursor-pointer font-semibold flex items-center gap-2">
                   <Flame className="w-4 h-4" />
                   Thermal Radiation
                 </Tab>
-                <Tab className="flex items-center gap-2 px-6 py-3 rounded-xl bg-slate-800/50 hover:bg-slate-700/70 border border-slate-700/50 hover:border-blue-500/50 transition-all duration-300 cursor-pointer font-semibold text-slate-300 hover:text-blue-400">
+                <Tab className="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-600 text-slate-300 hover:text-white transition-colors cursor-pointer font-semibold flex items-center gap-2">
                   <Users className="w-4 h-4" />
                   Evacuation Zones
                 </Tab>
