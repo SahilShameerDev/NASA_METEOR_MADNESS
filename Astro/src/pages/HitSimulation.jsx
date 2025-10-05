@@ -3,7 +3,7 @@ import { MapContainer, TileLayer, Circle, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
-import { Zap, MapPin, Activity, Target, Flame, Wind, Users, ArrowLeft, Rocket, Globe, Radio } from 'lucide-react';
+import { Zap, MapPin, Activity, Target, Flame, Wind, Users, ArrowLeft, Rocket, Globe, Radio, Home } from 'lucide-react';
 
 const getZoneColor = (key) => ({
   totalDestruction: '#FF1744',
@@ -255,29 +255,45 @@ export default function ImpactDashboard() {
         style={{ background: 'linear-gradient(to bottom, #0f172a, #020617)' }}
       />
 
-      <div className="relative z-10 p-6 max-w-7xl mx-auto">
-        {/* Header with Back Button */}
-        <div className="flex items-center justify-between mb-8">
-          <button 
-            className="group flex items-center gap-2 px-5 py-2.5 bg-slate-800/60 backdrop-blur-md hover:bg-slate-700/80 border border-slate-600/50 hover:border-cyan-400/60 rounded-xl font-semibold text-slate-200 transition-all duration-300 shadow-xl hover:shadow-cyan-500/20"
-            onClick={() => window.location.href='/asteroidplayer'}
-          >
-            <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform duration-300" />
-            <span>Back to Home</span>
-          </button>
-          
-          <div className="flex items-center gap-4">
-            <div className="relative">
-              <Rocket className="w-10 h-10 text-cyan-400" />
-              <div className="absolute -inset-1 bg-cyan-500/20 rounded-full blur-xl"></div>
-            </div>
-            <h1 className="text-4xl md:text-5xl font-black bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-500 bg-clip-text text-transparent tracking-tight">
-              Asteroid Impact Simulator
-            </h1>
+      <div className="relative z-10 p-8">
+        <div className="max-w-7xl mx-auto">
+          {/* Navigation Bar */}
+          <div className="mb-6 flex items-center gap-4">
+            <button
+              onClick={() => window.location.href = '/'}
+              className='bg-slate-900/80 backdrop-blur-md hover:bg-slate-800 border border-cyan-500/30 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors'
+            >
+              <Home className='w-4 h-4' />
+              Home
+            </button>
+            <button
+              onClick={() => window.location.href = '/asteroidplayer'}
+              className='bg-slate-900/80 backdrop-blur-md hover:bg-slate-800 border border-cyan-500/30 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors'
+            >
+              <Activity className='w-4 h-4' />
+              Dashboard
+            </button>
+            <button
+              onClick={() => window.location.href = '/hit'}
+              className='bg-cyan-600/80 backdrop-blur-md hover:bg-cyan-700 border border-cyan-500/30 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors'
+            >
+              <Target className='w-4 h-4' />
+              Impact History
+            </button>
           </div>
 
-          <div className="w-32"></div>
-        </div>
+          {/* Page Title */}
+          <div className="mb-8">
+            <div className="flex items-center gap-4">
+              <div className="relative">
+                <Rocket className="w-10 h-10 text-cyan-400" />
+                <div className="absolute -inset-1 bg-cyan-500/20 rounded-full blur-xl"></div>
+              </div>
+              <h1 className="text-4xl md:text-5xl font-black bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-500 bg-clip-text text-transparent tracking-tight">
+                Asteroid Impact Simulator
+              </h1>
+            </div>
+          </div>
 
         {/* Form Card */}
         <div className="bg-slate-900/60 backdrop-blur-xl rounded-2xl p-8 mb-8 border border-slate-700/60 shadow-2xl">
@@ -400,6 +416,7 @@ export default function ImpactDashboard() {
           box-shadow: 0 0 20px rgba(6, 182, 212, 0.4);
         }
       `}</style>
+      </div>
     </div>
   );
 }
