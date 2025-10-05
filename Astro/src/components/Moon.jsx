@@ -10,11 +10,11 @@ function MoonModel() {
   const [animationProgress, setAnimationProgress] = useState(0);
   
   // Load the Moon OBJ model
-  const obj = useLoader(OBJLoader, 'Moon.obj');
+  const obj = useLoader(OBJLoader, '/assets/Moon.obj');
   
   // Load textures
-  const colorTexture = useLoader(THREE.TextureLoader, '/src/assets/texture/lroc_color_poles_1k.jpg');
-  const displacementTexture = useLoader(THREE.TextureLoader, '/src/assets/texture/ldisplacement.jpg');
+  const colorTexture = useLoader(THREE.TextureLoader, '/assets/texture/lroc_color_poles_1k.jpg');
+  const displacementTexture = useLoader(THREE.TextureLoader, '/assets/texture/ldisplacement.jpg');
 
   // Apply materials to the loaded model
   useEffect(() => {
