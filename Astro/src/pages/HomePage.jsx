@@ -86,16 +86,16 @@ const AsteroidWebsiteDesign = () => {
         {/* Main Content */}
         <main className="relative z-20 flex flex-col items-center justify-center text-center px-4" style={{ pointerEvents: 'auto' }}>
           <h2 
-            className="leading-none relative"
+            className="leading-none relative font-medium"
             style={{
-              fontSize: 'clamp(3rem, 10vw, 8rem)',
+              fontSize: 'clamp(3rem, 8vw, 8rem)',
               fontWeight: 900,
               letterSpacing: '-0.05em',
               color: 'rgba(255, 255, 255, 0.9)',
               textShadow: '0 0 20px rgba(0, 0, 0, 0.8)'
             }}
           >
-            ASTRO
+            Project Dooms Day
           </h2>
           <p 
             className="text-lg md:text-xl text-gray-300 mt-2 mb-8 z-10"
