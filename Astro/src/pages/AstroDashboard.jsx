@@ -284,14 +284,14 @@ const AstroidPlayer = () => {
         <div className='max-w-7xl mx-auto'>
           <div className='mb-6 flex items-center gap-4'>
             <button
-              onClick={() => window.location.href = '/'}
+              onClick={() =>{navigation('/')}}
               className='bg-slate-900/80 backdrop-blur-md hover:bg-slate-800 border border-cyan-500/30 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors'
             >
               <Home className='w-4 h-4' />
               Home
             </button>
             <button
-              onClick={() => window.location.href = '/asteroidplayer'}
+              onClick={() =>{navigation('/asteroidplayer')}}
               className='bg-cyan-600/80 backdrop-blur-md hover:bg-cyan-700 border border-cyan-500/30 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors'
             >
               <Activity className='w-4 h-4' />
@@ -301,8 +301,6 @@ const AstroidPlayer = () => {
               onClick={() => {
                 navigation('/hit')
               }
-                // window.location.href = '/hit'
-
               }
               className='bg-slate-900/80 backdrop-blur-md hover:bg-slate-800 border border-cyan-500/30 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors'
             >
