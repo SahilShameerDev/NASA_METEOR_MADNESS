@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { AlertCircle, TrendingUp, Gauge, MapPin, Zap, Plus, X, Home, Activity, Shield, Target, Users, Clock, AlertTriangle, Flame, Wind, Eye, Layers } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 
 const AstroidPlayer = () => {
   const [asteroidData, setAsteroidData] = useState(null)
@@ -10,6 +11,7 @@ const AstroidPlayer = () => {
     start: '2025-09-01',
     end: '2025-09-07'
   })
+  const navigation = useNavigate()
   const [showCustomForm, setShowCustomForm] = useState(false)
   const [customData, setCustomData] = useState({
     date: '2026-03-15',
@@ -296,7 +298,12 @@ const AstroidPlayer = () => {
               Dashboard
             </button>
             <button
-              onClick={() => window.location.href = '/hit'}
+              onClick={() => {
+                navigation('/hit')
+              }
+                // window.location.href = '/hit'
+
+              }
               className='bg-slate-900/80 backdrop-blur-md hover:bg-slate-800 border border-cyan-500/30 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors'
             >
               <Target className='w-4 h-4' />
