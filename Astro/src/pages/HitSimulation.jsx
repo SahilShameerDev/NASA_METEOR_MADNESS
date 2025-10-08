@@ -292,7 +292,7 @@ export default function ImpactDashboard() {
               className='bg-cyan-600/80 backdrop-blur-md hover:bg-cyan-700 border border-cyan-500/30 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors'
             >
               <Target className='w-4 h-4' />
-              Impact History
+              Impact Simulator
             </button>
           </div>
 

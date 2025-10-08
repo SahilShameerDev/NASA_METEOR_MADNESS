@@ -305,7 +305,7 @@ const AstroidPlayer = () => {
               className='bg-slate-900/80 backdrop-blur-md hover:bg-slate-800 border border-cyan-500/30 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors'
             >
               <Target className='w-4 h-4' />
-              Impact History
+              Impact Simulator
             </button>
           </div>
 
@@ -318,7 +318,7 @@ const AstroidPlayer = () => {
                 <p className='text-slate-400'>Real-time Near-Earth Object monitoring system</p>
               </div>
               
-              <div className='flex items-center gap-4'>
+              <div className='lg:flex items-center gap-4'>
                 <div>
                   <label className='block text-slate-400 text-xs mb-1'>Start Date</label>
                   <input
@@ -479,7 +479,7 @@ const AstroidPlayer = () => {
             </div>
           ) : (
             <>
-              <div className='grid grid-cols-4 gap-4 mb-8'>
+              <div className='grid grid-cols-4 max-md:grid-cols-2 gap-4 mb-8'>
                 <div className='bg-slate-900/80 backdrop-blur-md rounded-lg p-4 border border-cyan-500/30'>
                   <div className='text-slate-400 text-sm mb-1'>Total Detected</div>
                   <div className='text-3xl font-bold text-white'>
@@ -506,8 +506,8 @@ const AstroidPlayer = () => {
                 </div>
               </div>
 
-              <div className='flex gap-6 h-[600px]'>
-                <div className='w-2/5 bg-slate-900/80 backdrop-blur-md rounded-lg border border-cyan-500/30 overflow-hidden flex flex-col'>
+              <div className='flex max-md:grid gap-6 h-[600px]'>
+                <div className='lg:w-2/5 bg-slate-900/80 backdrop-blur-md rounded-lg border border-cyan-500/30 overflow-hidden flex flex-col'>
                   <div className='p-4 border-b border-slate-800'>
                     <h2 className='text-xl font-semibold text-white'>Detected Objects</h2>
                     <p className='text-sm text-slate-400 mt-1'>
